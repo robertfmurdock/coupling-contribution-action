@@ -16,13 +16,13 @@ runs:
     - name: Install Coupling CLI
       shell: bash
       run: |- 
-        mkdir /coupling-cli
-        wget -c https://coupling.zegreatrob.com/latest-cli -O - | tar -xz --directory /coupling-cli
+        mkdir ~/coupling-cli
+        wget -c https://coupling.zegreatrob.com/latest-cli -O - | tar -xz --directory ~/coupling-cli
     - name: Save Contribution
       env:
         COUPLING_CLI_ACCESS_TOKEN: ${{ inputs.coupling-secret }}
-      run: cat ${{ inputs.contribution-file }} | /coupling-cli/bin/cli party contribution --party-id ${{ inputs.party-id }} save
+      run: cat ${{ inputs.contribution-file }} | ~/coupling-cli/bin/cli party contribution --party-id ${{ inputs.party-id }} save
       shell: bash
     - name: Uninstall Coupling CLI
       shell: bash
-      run: rm -r /coupling-cli
+      run: rm -r ~/coupling-cli
