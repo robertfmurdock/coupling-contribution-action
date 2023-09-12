@@ -15,7 +15,9 @@ runs:
   steps:
     - name: Install Coupling CLI
       shell: bash
-      run: wget -c https://coupling.zegreatrob.com/latest-cli -O - | tar -xz --directory /coupling-cli
+      run: |- 
+        mkdir /coupling-cli
+        wget -c https://coupling.zegreatrob.com/latest-cli -O - | tar -xz --directory /coupling-cli
     - name: Save Contribution
       env:
         COUPLING_CLI_ACCESS_TOKEN: ${{ inputs.coupling-secret }}
