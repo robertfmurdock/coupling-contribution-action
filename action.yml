@@ -1,0 +1,24 @@
+name: 'Coupling Contribution Action'
+description: 'This action will send contribution information to Coupling when invoked.'
+inputs:
+  coupling-secret:
+    description: 'A coupling secret for a party is required in order to update contributions.'
+    required: true
+  party-id:
+    description: 'A coupling secret for a party is required in order to update contributions.'
+    required: true
+  contribution-file:
+    description: 'A JSON containing the contribution information'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Install Coupling CLI
+      shell: bash
+      run: wget -c https://coupling.zegreatrob.com/latest-cli -O - | tar -xz /coupling-cli
+    - name: Save Contribution
+      run: cat ${{ inputs.contribution-file }} | /coupling-cli/bin/cli party contribution --party-id ${{ inputs.party-id }} save
+      shell: bash
+    - name: Uninstall Coupling CLI
+      shell: bash
+      run: rm -r /coupling-cli
