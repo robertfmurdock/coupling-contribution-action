@@ -11,18 +11,28 @@ inputs:
     description: 'A JSON containing the contribution information'
     required: true
   cli-type:
-    description: 'A JSON containing the contribution information'
+    description: 'CLI runtime type to use'
     default: 'jvm'
     required: false
 runs:
   using: "composite"
   steps:
-    - name: Install Coupling CLI
+    - name: Install Coupling CLI (Java)
+      if: ${{ inputs.cli-type == 'jvm' }}
       shell: bash
-      run: |- 
+      run: |-
         mkdir ~/.coupling
         wget -c https://coupling.zegreatrob.com/latest-cli -O - | tar -xz --directory ~/.coupling
         echo "~/.coupling/coupling-cli/bin" >> $GITHUB_PATH
+    - name: Install Coupling CLI (JS)
+      if: ${{ inputs.cli-type == 'js' }}
+      shell: bash
+      run: |-
+        mkdir ~/.coupling
+        wget -c https://coupling.zegreatrob.com/latest-cli?type=js -O - | tar -xz --directory ~/.coupling
+        cd ~/.coupling/coupling-cli-js
+        npm install
+        npm link
     - name: Save Contribution
       env:
         COUPLING_CLI_ACCESS_TOKEN: ${{ inputs.coupling-secret }}
