@@ -32,7 +32,7 @@ runs:
       if: ${{ inputs.cli-type == 'js' }}
       shell: bash
       run: |-
-        mkdir ~/.coupling
+        mkdir -p ~/.coupling/coupling-cli-js
         wget -c "https://coupling.zegreatrob.com/latest-cli?type=js" -O - | tar -xz --directory ~/.coupling/coupling-cli-js
         cd ~/.coupling/coupling-cli-js
         npm install
