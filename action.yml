@@ -10,6 +10,10 @@ inputs:
   contribution-file:
     description: 'A JSON containing the contribution information'
     required: true
+  cli-type:
+    description: 'A JSON containing the contribution information'
+    default: 'jvm'
+    required: false
 runs:
   using: "composite"
   steps:
@@ -18,10 +22,11 @@ runs:
       run: |- 
         mkdir ~/.coupling
         wget -c https://coupling.zegreatrob.com/latest-cli -O - | tar -xz --directory ~/.coupling
+        echo "~/.coupling/coupling-cli/bin" >> $GITHUB_PATH
     - name: Save Contribution
       env:
         COUPLING_CLI_ACCESS_TOKEN: ${{ inputs.coupling-secret }}
-      run: cat ${{ inputs.contribution-file }} | ~/.coupling/coupling-cli/bin/cli party contribution --party-id ${{ inputs.party-id }} save
+      run: cat ${{ inputs.contribution-file }} | coupling party contribution --party-id ${{ inputs.party-id }} save
       shell: bash
     - name: Uninstall Coupling CLI
       shell: bash
