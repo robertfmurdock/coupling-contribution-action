@@ -14,6 +14,10 @@ inputs:
     description: 'CLI runtime type to use'
     default: 'jvm'
     required: false
+  save-contribution:
+    description: 'Should save contribution'
+    default: 'true'
+    required: false
 runs:
   using: "composite"
   steps:
@@ -33,7 +37,13 @@ runs:
         cd ~/.coupling/coupling-cli-js
         npm install
         npm link
+    - name: Verify Connectivity
+      env:
+        COUPLING_CLI_ACCESS_TOKEN: ${{ inputs.coupling-secret }}
+      run: cat ${{ inputs.contribution-file }} | coupling party list
+      shell: bash
     - name: Save Contribution
+      if: ${{ inputs.save-contribution == 'true' }}
       env:
         COUPLING_CLI_ACCESS_TOKEN: ${{ inputs.coupling-secret }}
       run: cat ${{ inputs.contribution-file }} | coupling party contribution --party-id ${{ inputs.party-id }} save
