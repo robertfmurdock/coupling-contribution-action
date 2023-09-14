@@ -29,7 +29,7 @@ runs:
       shell: bash
       run: |-
         mkdir ~/.coupling
-        wget -c https://coupling.zegreatrob.com/latest-cli?type=js -O - | tar -xz --directory ~/.coupling
+        wget -c "https://coupling.zegreatrob.com/latest-cli?type=js" -O - | tar -xz --directory ~/.coupling/coupling-cli-js
         cd ~/.coupling/coupling-cli-js
         npm install
         npm link
