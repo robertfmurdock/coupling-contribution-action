@@ -12,7 +12,7 @@ inputs:
     required: true
   cli-type:
     description: 'CLI runtime type to use'
-    default: 'jvm'
+    default: 'js'
     required: false
   save-contribution:
     description: 'Should save contribution'
