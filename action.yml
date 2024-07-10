@@ -37,6 +37,8 @@ runs:
         cd ~/.coupling/coupling-cli-js
         npm install
         npm link
+    - shell: bash
+      run: awk 1 ${{ inputs.contribution-file }}
     - name: Verify Connectivity
       env:
         COUPLING_CLI_ACCESS_TOKEN: ${{ inputs.coupling-secret }}
