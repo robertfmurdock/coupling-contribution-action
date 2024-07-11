@@ -37,12 +37,13 @@ runs:
         cd ~/.coupling/coupling-cli-js
         npm install
         npm link
-    - shell: bash
+    - name: Show Input File
+      shell: bash
       run: awk 1 ${{ inputs.contribution-file }}
     - name: Verify Connectivity
       env:
         COUPLING_CLI_ACCESS_TOKEN: ${{ inputs.coupling-secret }}
-      run: awk 1 ${{ inputs.contribution-file }} | coupling party list
+      run: coupling party list
       shell: bash
     - name: Save Contribution
       if: ${{ inputs.save-contribution == 'true' }}
