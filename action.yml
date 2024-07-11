@@ -41,18 +41,16 @@ runs:
       shell: bash
       run: awk 1 ${{ inputs.contribution-file }}
     - name: Verify Connectivity
+      shell: bash
       env:
         COUPLING_CLI_ACCESS_TOKEN: ${{ inputs.coupling-secret }}
       run: coupling party list
-      shell: bash
-    - shell: bash
-      run: awk 1 ${{ inputs.contribution-file }} | cat
     - name: Save Contribution
+      shell: bash
       if: ${{ inputs.save-contribution == 'true' }}
       env:
         COUPLING_CLI_ACCESS_TOKEN: ${{ inputs.coupling-secret }}
-      run: awk 1 ${{ inputs.contribution-file }} | coupling party contribution --party-id ${{ inputs.party-id }} save
-      shell: bash
+      run: coupling party contribution --party-id ${{ inputs.party-id }} save --input-json "$(cat ${{ inputs.contribution-file }})"
     - name: Uninstall Coupling CLI
       shell: bash
       run: rm -r ~/.coupling
