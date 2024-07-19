@@ -14,6 +14,10 @@ inputs:
     description: 'CLI runtime type to use'
     default: 'js'
     required: false
+  link:
+    description: 'Optional link to include to relate to the contribution. If omitted, will link to commit in github.'
+    default: ''
+    required: false
   save-contribution:
     description: 'Should save contribution'
     default: 'true'
@@ -43,8 +47,13 @@ runs:
         COUPLING_CLI_ACCESS_TOKEN: ${{ inputs.coupling-secret }}
       run: coupling party list
     - name: Create Link to Github
+      if: "${{ github.event.inputs.link == '' }}"
       shell: bash
       run: echo "CONTRIBUTION_GITHUB_LINK=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/commit/$(cat ${{ inputs.contribution-file }} | jq  -r .lastCommit)" >> "$GITHUB_ENV"
+    - name: Include Link
+      if: "${{ github.event.inputs.link != '' }}"
+      shell: bash
+      run: echo "CONTRIBUTION_GITHUB_LINK=${{ github.event.inputs.link }}" >> "$GITHUB_ENV"
     - name: Show Input File
       shell: bash
       run: awk 1 ${{ inputs.contribution-file }}
