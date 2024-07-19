@@ -37,20 +37,23 @@ runs:
         cd ~/.coupling/coupling-cli-js
         npm install
         npm link
-    - name: Show Input File
-      shell: bash
-      run: awk 1 ${{ inputs.contribution-file }}
     - name: Verify Connectivity
       shell: bash
       env:
         COUPLING_CLI_ACCESS_TOKEN: ${{ inputs.coupling-secret }}
       run: coupling party list
+    - name: Create Link to Github
+      shell: bash
+      run: echo "CONTRIBUTION_GITHUB_LINK=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/commit/$(cat ${{ inputs.contribution-file }} | jq  -r .lastCommit)" >> "$GITHUB_ENV"
+    - name: Show Input File
+      shell: bash
+      run: awk 1 ${{ inputs.contribution-file }}
     - name: Save Contribution
       shell: bash
       if: ${{ inputs.save-contribution == 'true' }}
       env:
         COUPLING_CLI_ACCESS_TOKEN: ${{ inputs.coupling-secret }}
-      run: coupling party contribution --party-id ${{ inputs.party-id }} save --input-json "$(cat ${{ inputs.contribution-file }})"
+      run: coupling party contribution --party-id ${{ inputs.party-id }} save --link $CONTRIBUTION_GITHUB_LINK --input-json "$(cat ${{ inputs.contribution-file }})"
     - name: Uninstall Coupling CLI
       shell: bash
       run: rm -r ~/.coupling
