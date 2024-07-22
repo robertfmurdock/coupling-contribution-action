@@ -26,6 +26,10 @@ inputs:
     description: 'should calculate cycle time by subtracting the current time from the first commit time'
     default: 'false'
     required: false
+  cycle-time:
+    description: 'Optionally provided value for cycle time property.'
+    default: ''
+    required: false
 runs:
   using: "composite"
   steps:
@@ -70,7 +74,7 @@ runs:
       if: ${{ inputs.save-contribution == 'true' }}
       env:
         COUPLING_CLI_ACCESS_TOKEN: ${{ inputs.coupling-secret }}
-      run: coupling party contribution --party-id ${{ inputs.party-id }} save --link $CONTRIBUTION_GITHUB_LINK $CYCLE_TIME_FROM_FIRST_COMMIT --input-json "$(cat ${{ inputs.contribution-file }})"
+      run: coupling party contribution --party-id ${{ inputs.party-id }} save --link $CONTRIBUTION_GITHUB_LINK $CYCLE_TIME_FROM_FIRST_COMMIT --cycle-time="${{ inputs.cycle-time }}" --input-json "$(cat ${{ inputs.contribution-file }})"
     - name: Uninstall Coupling CLI
       shell: bash
       run: rm -r ~/.coupling
