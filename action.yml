@@ -65,7 +65,7 @@ runs:
     - name: Enable Cycle Time From First Commit
       if: "${{ inputs.cycle-time-from-first-commit  == 'true' }}"
       shell: bash
-      run: echo "CYCLE_TIME_FROM_FIRST_COMMIT=--cycle-time-from-first-commit=" >> "$GITHUB_ENV"
+      run: echo "CYCLE_TIME_FROM_FIRST_COMMIT=--cycle-time-from-first-commit" >> "$GITHUB_ENV"
     - name: Show Input File
       shell: bash
       run: awk 1 ${{ inputs.contribution-file }}
