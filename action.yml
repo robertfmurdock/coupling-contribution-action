@@ -40,6 +40,11 @@ runs:
         mkdir ~/.coupling
         wget -c https://coupling.zegreatrob.com/latest-cli -O - | tar -xz --directory ~/.coupling
         echo "~/.coupling/coupling-cli/bin" >> $GITHUB_PATH
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      if: ${{ inputs.cli-type == 'js' }}
+      with:
+        node-version: 20
     - name: Install Coupling CLI (JS)
       if: ${{ inputs.cli-type == 'js' }}
       shell: bash
