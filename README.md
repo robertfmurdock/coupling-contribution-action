@@ -1,6 +1,6 @@
 # Coupling Contribution Action
 
-A Github Action for submitting repository contributions to [Coupling](https://coupling.zegreatrob.com).
+A GitHub Action for submitting repository contributions to [Coupling](https://coupling.zegreatrob.com).
 
 
 ## Requirements
